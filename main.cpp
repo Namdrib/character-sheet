@@ -25,7 +25,7 @@ void print_stat(const string &stat, const int length, const int level, const int
 // str1    int1   str4    int4
 // str2    int2   string5 int5
 // string3 int3   str6    int6
-// If border is set, print a nice border around the thing :)
+// If border is set, print a nice border around the outside :)
 void column_print(vector<pair<string, int>> &stats, int skill_cap, bool border=false)
 {
 	size_t num = stats.size();
@@ -33,7 +33,7 @@ void column_print(vector<pair<string, int>> &stats, int skill_cap, bool border=f
 	size_t mid_gap = 3;
 	int longest_string_left = max_element(stats.begin(), stats.begin() + half, pair_first_string_length<int>())->first.size();
 	int longest_string_right = max_element(stats.begin() + half, stats.end(), pair_first_string_length<int>())->first.size();
-	size_t full_length = 2 + longest_string_left + 8 + mid_gap + longest_string_right + 8 + 2;
+	size_t full_length = longest_string_left + mid_gap + longest_string_right + 2 * (2 + skill_cap + 3);
 	if (border)
 	{
 		cout << "+" << string(full_length, '-') << "+" << endl;
@@ -55,7 +55,7 @@ void column_print(vector<pair<string, int>> &stats, int skill_cap, bool border=f
 		{
 			if (border)
 			{
-				cout << string(mid_gap + longest_string_right + 8, ' ');
+				cout << string(mid_gap + longest_string_right + skill_cap + 3, ' ');
 			}
 		}
 		if (border)
@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 {
 	if (argc < 2)
 	{
-		cerr << "Usage: " << argv[0] << " stat_file" << endl;
+		cerr << "Usage: " << argv[0] << " stat_file [border]" << endl;
 		exit(1);
 	}
 
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
 			sum += temp2;
 		}
 	}
-	if (sum < 30)
+	if (sum < max_points)
 	{
 		cout << "Still have " << max_points - sum << " points to invest" << endl;
 	}
